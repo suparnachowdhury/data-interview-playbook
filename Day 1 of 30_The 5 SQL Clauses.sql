@@ -167,3 +167,9 @@ FROM orders
 GROUP BY city
 ORDER BY avg_order_value DESC;
 
+-- 5. Top 3 products by total revenue
+SELECT product, SUM(total_amount) AS revenue
+FROM orders
+GROUP BY product
+ORDER BY revenue DESC
+LIMIT 3;
