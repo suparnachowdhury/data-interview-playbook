@@ -5,3 +5,13 @@ CREATE TABLE customers (
 );
 
 
+INSERT INTO customers
+(customer_id, customer_name, city)
+VALUES
+(101, 'Michael Johnson', 'New York'),
+(102, 'Sophia Martinez', 'Chicago'),
+(103, 'Daniel Kim', 'Boston'),
+(104, 'Priya Sharma', 'Seattle'),
+(105, 'James Wilson', 'Boston'),
+(106, 'Olivia Brown', 'Seattle'),
+(107, 'Emma Davis', 'Denver');
