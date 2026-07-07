@@ -153,3 +153,10 @@ SELECT category, SUM(total_amount) AS revenue
 FROM orders
 GROUP BY category
 ORDER BY revenue DESC;
+
+-- 3. Number of orders per customer
+SELECT customer_name, COUNT(*) AS num_orders
+FROM orders
+GROUP BY customer_name
+ORDER BY num_orders DESC;
+
