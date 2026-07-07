@@ -38,6 +38,35 @@ CREATE TABLE orders (
 
 
 
+-- Insert Orders Data
+
+
+INSERT INTO orders
+(order_id, customer_id, product_id, order_date, quantity, total_amount, order_status)
+VALUES
+
+-- Delivered orders
+(1001, 101, 201, '2026-01-03', 1, 1200.00, 'Delivered'),
+
+(1002, 102, 202, '2026-01-05', 4, 320.00, 'Delivered'),
+
+(1003, 101, 203, '2026-01-10', 2, 50.00, 'Delivered'),
+
+(1004, 103, 204, '2026-01-12', 10, 50.00, 'Delivered'),
+
+(1005, 104, 205, '2026-01-15', 2, 600.00, 'Delivered'),
+
+(1006, 102, 206, '2026-01-18', 1, 250.00, 'Cancelled'),
+
+(1007, 105, 207, '2026-01-20', 3, 135.00, 'Delivered'),
+
+(1008, 103, 202, '2026-01-22', 2, 160.00, 'Delivered'),
+
+(1009, 101, 209, '2026-01-24', 5, 60.00, 'Pending'),
+
+(1010, 106, 201, '2026-01-26', 1, 1300.00, 'Delivered'),
+
+(1011, 104, 206, '2026-01-27', 2, 500.00, 'Delivered');
 
 
 -- Create Products Table
