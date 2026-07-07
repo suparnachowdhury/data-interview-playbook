@@ -173,3 +173,14 @@ FROM orders
 GROUP BY product
 ORDER BY revenue DESC
 LIMIT 3;
+
+
+-- MEDIUM
+
+-- 1. Customers whose total spend exceeds $1,000
+SELECT customer_name, SUM(total_amount) AS total_spend
+FROM orders
+GROUP BY customer_name
+HAVING SUM(total_amount) > 1000
+ORDER BY total_spend DESC;
+
