@@ -2,7 +2,14 @@
 
 -- EASY
 -- 1. Find all delivered orders with customer names.
-
+SELECT
+    o.order_id,
+    c.customer_name,
+    o.order_status
+FROM orders o
+JOIN customers c
+    ON o.customer_id = c.customer_id
+WHERE o.order_status = 'Delivered';
 
 -- 2. Show every customer, including customers who have never placed an order.
 
