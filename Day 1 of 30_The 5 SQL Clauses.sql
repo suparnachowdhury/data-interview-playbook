@@ -206,3 +206,9 @@ GROUP BY category
 ORDER BY avg_order_value DESC
 LIMIT 1;
 
+-- 5. Customers with more than 2 orders — show order count and total spend
+SELECT customer_name, COUNT(*) AS num_orders, SUM(total_amount) AS total_spend
+FROM orders
+GROUP BY customer_name
+HAVING COUNT(*) > 2
+ORDER BY num_orders DESC;
