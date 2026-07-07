@@ -212,3 +212,25 @@ FROM orders
 GROUP BY customer_name
 HAVING COUNT(*) > 2
 ORDER BY num_orders DESC;
+
+
+
+
+-- BONUS
+
+
+-- Customer name, city, order count, total revenue, avg order value
+-- for customers who spent over $1,000, sorted by revenue descending
+
+
+SELECT
+    customer_name,
+    city,
+    COUNT(*) AS num_orders,
+    SUM(total_amount) AS total_revenue,
+    AVG(total_amount) AS avg_order_value
+FROM orders
+GROUP BY customer_name, city
+HAVING SUM(total_amount) > 1000
+ORDER BY total_revenue DESC;
+
