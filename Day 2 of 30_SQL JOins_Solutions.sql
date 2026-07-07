@@ -58,9 +58,20 @@ GROUP BY c.customer_name
 ORDER BY delivered_revenue DESC
 LIMIT 3;
 
--- 4. Find cities where total delivered revenue exceeds $1,000.
+-- 3. Find cities where total delivered revenue exceeds $1,000.
+SELECT
+    c.city,
+    SUM(p.price * o.quantity) AS total_revenue
+FROM customers c
+JOIN orders o
+    ON c.customer_id = o.customer_id
+JOIN products p
+    ON o.product_id = p.product_id
+WHERE o.order_status = 'Delivered'
+GROUP BY c.city
+HAVING SUM(p.price * o.quantity) > 1000;
 
--- 5. Find products that have never been ordered.
+
 
 
 /* 
