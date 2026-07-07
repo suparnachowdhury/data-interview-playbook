@@ -86,3 +86,28 @@ Average order value
 Include only customers whose delivered spending is greater than the average delivered spending of all customers.
 Sort the results by total spending in descending order.
 */
+WITH delivered AS (
+    SELECT
+        o.customer_id,
+        COUNT(*) AS delivered_order_count,
+        SUM(o.total_amount) AS total_delivered_spending,
+        AVG(o.total_amount) AS avg_order_value
+    FROM orders o
+    WHERE o.order_status = 'Delivered'
+    GROUP BY o.customer_id
+),
+overall_avg AS (
+    SELECT AVG(total_delivered_spending) AS avg_delivered_spending
+    FROM delivered
+)
+SELECT
+    c.customer_name,
+    c.city,
+    d.delivered_order_count,
+    d.total_delivered_spending,
+    d.avg_order_value
+FROM delivered d
+JOIN customers c ON c.customer_id = d.customer_id
+CROSS JOIN overall_avg oa
+WHERE d.total_delivered_spending > oa.avg_delivered_spending
+ORDER BY d.total_delivered_spending DESC;
