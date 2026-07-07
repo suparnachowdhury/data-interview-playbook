@@ -198,3 +198,11 @@ GROUP BY product
 ORDER BY total_quantity DESC
 LIMIT 1;
 
+-- 4. Which category has the highest average order value?
+
+SELECT category, AVG(total_amount) AS avg_order_value
+FROM orders
+GROUP BY category
+ORDER BY avg_order_value DESC
+LIMIT 1;
+
