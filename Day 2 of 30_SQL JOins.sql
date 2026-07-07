@@ -15,3 +15,16 @@ VALUES
 (105, 'James Wilson', 'Boston'),
 (106, 'Olivia Brown', 'Seattle'),
 (107, 'Emma Davis', 'Denver');
+
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    product_id INT,
+    order_date DATE,
+    quantity INT,
+    total_amount DECIMAL(10,2),
+
+    FOREIGN KEY (customer_id)
+    REFERENCES customers(customer_id)
+);
+
