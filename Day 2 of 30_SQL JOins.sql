@@ -62,3 +62,26 @@ CREATE TABLE products (
 );
 
 
+INSERT INTO products
+(product_id, product_name, category)
+VALUES
+
+(201, 'Laptop', 'Electronics'),
+
+(202, 'Chair', 'Furniture'),
+
+(203, 'Mouse', 'Electronics'),
+
+(204, 'Notebook', 'Office Supplies'),
+
+(205, 'Monitor', 'Electronics'),
+
+(206, 'Desk', 'Furniture'),
+
+(207, 'Keyboard', 'Electronics'),
+
+(208, 'Headphones', 'Electronics'),
+
+(209, 'Printer Paper', 'Office Supplies'),
+
+(210, 'Tablet', 'Electronics'); 
