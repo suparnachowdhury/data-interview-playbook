@@ -191,3 +191,10 @@ GROUP BY city
 ORDER BY revenue DESC
 LIMIT 1;
 
+-- 3. Which product sold the highest total quantity?
+SELECT product, SUM(quantity) AS total_quantity
+FROM orders
+GROUP BY product
+ORDER BY total_quantity DESC
+LIMIT 1;
+
