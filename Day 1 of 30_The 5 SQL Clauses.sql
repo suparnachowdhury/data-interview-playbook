@@ -184,3 +184,10 @@ GROUP BY customer_name
 HAVING SUM(total_amount) > 1000
 ORDER BY total_spend DESC;
 
+-- 2. Which city generated the most revenue?
+SELECT city, SUM(total_amount) AS revenue
+FROM orders
+GROUP BY city
+ORDER BY revenue DESC
+LIMIT 1;
+
