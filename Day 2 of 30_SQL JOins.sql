@@ -54,3 +54,11 @@ VALUES
 (1010, 106, 201, '2026-01-26', 1, 1300.00),
 
 (1011, 104, 206, '2026-01-27', 2, 500.00);
+
+CREATE TABLE products (
+    product_id INT PRIMARY KEY,
+    product_name VARCHAR(50),
+    category VARCHAR(50)
+);
+
+
