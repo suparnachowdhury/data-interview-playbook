@@ -160,3 +160,10 @@ FROM orders
 GROUP BY customer_name
 ORDER BY num_orders DESC;
 
+
+-- 4. Average order value by city
+SELECT city, AVG(total_amount) AS avg_order_value
+FROM orders
+GROUP BY city
+ORDER BY avg_order_value DESC;
+
