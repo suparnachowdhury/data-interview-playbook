@@ -147,3 +147,9 @@ SELECT customer_name, product, total_amount
 FROM orders
 WHERE total_amount > 500
 ORDER BY total_amount DESC;
+
+-- 2. Total revenue by product category
+SELECT category, SUM(total_amount) AS revenue
+FROM orders
+GROUP BY category
+ORDER BY revenue DESC;
