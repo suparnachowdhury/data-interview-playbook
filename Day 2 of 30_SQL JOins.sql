@@ -67,3 +67,28 @@ CREATE TABLE products (
 );
 
 
+-- Insert Product Data
+
+INSERT INTO products
+(product_id, product_name, category, price)
+VALUES
+
+(201, 'Laptop', 'Electronics', 1200.00),
+
+(202, 'Chair', 'Furniture', 80.00),
+
+(203, 'Mouse', 'Electronics', 25.00),
+
+(204, 'Notebook', 'Office Supplies', 5.00),
+
+(205, 'Monitor', 'Electronics', 300.00),
+
+(206, 'Desk', 'Furniture', 250.00),
+
+(207, 'Keyboard', 'Electronics', 45.00),
+
+(208, 'Headphones', 'Electronics', 120.00),
+
+(209, 'Printer Paper', 'Office Supplies', 12.00),
+
+(210, 'Tablet', 'Electronics', 500.00);
