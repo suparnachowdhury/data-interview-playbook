@@ -44,9 +44,19 @@ WHERE NOT EXISTS
     WHERE o.customer_id = c.customer_id
 );
 
--- 2. For each product category, find the lowest-priced product that has generated at least one delivered order.
-
--- 3. Find the top 3 customers by delivered revenue.
+-- 2. Find the top 3 customers by delivered revenue.
+SELECT
+    c.customer_name,
+    SUM(p.price * o.quantity) AS delivered_revenue
+FROM customers c
+JOIN orders o
+    ON c.customer_id = o.customer_id
+JOIN products p
+    ON o.product_id = p.product_id
+WHERE o.order_status = 'Delivered'
+GROUP BY c.customer_name
+ORDER BY delivered_revenue DESC
+LIMIT 3;
 
 -- 4. Find cities where total delivered revenue exceeds $1,000.
 
