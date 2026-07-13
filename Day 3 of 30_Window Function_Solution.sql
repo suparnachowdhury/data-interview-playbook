@@ -88,6 +88,13 @@ FROM sales;
 
 -- Show the next sale using LEAD().If no such sale exists (e.g., for the last sale), 
 -- return a default value of 0.00.
+SELECT 
+    sale_id, salesperson_id, order_date, product_id, amount,
+    LEAD(amount, 1, 0.00) OVER(
+        PARTITION BY salesperson_id 
+        ORDER BY order_date, sale_id
+    ) AS sale_two_steps_ahead
+FROM sales;
 
 -- Rank each salesperson's sales using DENSE_RANK().
 
