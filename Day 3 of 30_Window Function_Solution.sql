@@ -96,24 +96,35 @@ SELECT
     ) AS sale_two_steps_ahead
 FROM sales;
 
--- Rank each salesperson's sales using DENSE_RANK().
+/*
+Return every sale together with:
+salesperson_id, order_date, amount, running total, previous sale amount
+difference from previous sale
+Sort the output by salesperson and order date.
+*/
 
 -- Calculate what percentage each sale contributes to the salesperson's total revenue.
 
 -- =============================
 --  Bonus Challenge
 -- =============================
+
 /*
-Return every sale together with:
-
-salesperson_id
-order_date
-amount
-salesperson total revenue
-running total
-rank within salesperson
-previous sale amount
-difference from previous sale
-
-Sort the output by salesperson and order date.
+Find the top 2 highest sales for each salesperson, ordered by the sale amount descending. 
+If a salesperson has a tie for their second-highest sale, break the tie by choosing the sale 
+with the earlier sale_id. 
+A salesperson with only one total sale should still be included in the output.
 */
+WITH ranked_sales AS (
+    SELECT 
+        sale_id, salesperson_id, order_date, product_id, amount,
+        DENSE_RANK() OVER (
+            PARTITION BY salesperson_id 
+            ORDER BY amount DESC
+        ) AS sale_rank
+    FROM sales
+)
+SELECT salesperson_id, sale_id, order_date, product_id, amount, sale_rank AS price_tier
+FROM ranked_sales
+WHERE sale_rank <= 2
+ORDER BY salesperson_id, amount DESC;
