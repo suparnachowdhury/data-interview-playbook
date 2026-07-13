@@ -50,3 +50,21 @@ VALUES
 -- Rank each salesperson's sales using DENSE_RANK().
 
 -- Calculate what percentage each sale contributes to the salesperson's total revenue.
+
+-- =============================
+--  Bonus Challenge
+-- =============================
+/*
+Return every sale together with:
+
+salesperson_id
+order_date
+amount
+salesperson total revenue
+running total
+rank within salesperson
+previous sale amount
+difference from previous sale
+
+Sort the output by salesperson and order date.
+*/
