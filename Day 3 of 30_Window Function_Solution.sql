@@ -36,6 +36,11 @@ FROM sales;
 
 
 -- Show every sale with each salesperson's total revenue.
+SELECT 
+    sale_id, salesperson_id, order_date, product_id, amount,
+    SUM(amount) OVER(PARTITION BY salesperson_id) AS salesperson_total_revenue
+FROM sales;
+
 
 -- Rank all sales using RANK().
 
