@@ -25,3 +25,28 @@ VALUES
 (10,103,'2026-02-10',504,720.00),
 (11,104,'2026-02-08',506,1600.00);
 
+-- =============================
+-- Easy
+-- =============================
+-- Show every sale with the total revenue across the entire table.
+
+-- Show every sale with each salesperson's total revenue.
+
+-- Rank all sales using RANK().
+
+-- Number each salesperson's sales using ROW_NUMBER().
+
+-- Find each salesperson's smallest sale.
+
+-- ============================= 
+-- Medium
+-- =============================
+-- Calculate a running total for every salesperson.
+
+-- Show the previous sale using LAG().
+
+-- Show the next sale using LEAD().
+
+-- Rank each salesperson's sales using DENSE_RANK().
+
+-- Calculate what percentage each sale contributes to the salesperson's total revenue.
