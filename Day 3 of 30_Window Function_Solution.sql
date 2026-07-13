@@ -43,6 +43,10 @@ FROM sales;
 
 
 -- Rank all sales using RANK().
+SELECT 
+    sale_id, salesperson_id, order_date, product_id, amount,
+    RANK() OVER(ORDER BY amount DESC) AS overall_sales_rank
+FROM sales;
 
 -- Number each salesperson's sales using ROW_NUMBER().
 
