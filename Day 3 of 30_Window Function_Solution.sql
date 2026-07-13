@@ -49,6 +49,11 @@ SELECT
 FROM sales;
 
 -- Number each salesperson's sales using ROW_NUMBER().
+SELECT 
+    sale_id, salesperson_id, order_date, product_id, amount,
+    ROW_NUMBER() OVER(PARTITION BY salesperson_id ORDER BY order_date) AS salesperson_sale_number
+FROM sales;
+
 
 -- Find each salesperson's smallest sale.
 
