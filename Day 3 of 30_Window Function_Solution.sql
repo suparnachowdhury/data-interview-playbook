@@ -65,7 +65,15 @@ FROM sales;
 -- ============================= 
 -- Medium
 -- =============================
+
 -- Calculate a running total for every salesperson.
+SELECT 
+    sale_id, salesperson_id, order_date, product_id, amount,
+    SUM(amount) OVER(
+        PARTITION BY salesperson_id 
+        ORDER BY order_date, sale_id
+    ) AS running_total
+FROM sales;
 
 -- Show the previous sale using LAG().
 
