@@ -56,6 +56,11 @@ FROM sales;
 
 
 -- Find each salesperson's smallest sale.
+SELECT 
+    sale_id, salesperson_id, order_date, product_id, amount,
+    MIN(amount) OVER(PARTITION BY salesperson_id) AS salesperson_min_sale
+FROM sales;
+
 
 -- ============================= 
 -- Medium
