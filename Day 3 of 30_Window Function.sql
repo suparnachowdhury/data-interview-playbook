@@ -47,24 +47,22 @@ VALUES
 
 -- Show the next sale using LEAD(). If no such sale exists (e.g., for the last sale), return a default value of 0.00.
 
--- Rank each salesperson's sales using DENSE_RANK().
+/*
+Return every sale together with:
+salesperson_id, order_date, amount, running total, previous sale amount
+difference from previous sale
+Sort the output by salesperson and order date.
+*/
 
 -- Calculate what percentage each sale contributes to the salesperson's total revenue.
 
 -- =============================
 --  Bonus Challenge
 -- =============================
+
 /*
-Return every sale together with:
-
-salesperson_id
-order_date
-amount
-salesperson total revenue
-running total
-rank within salesperson
-previous sale amount
-difference from previous sale
-
-Sort the output by salesperson and order date.
+Find the top 2 highest sales for each salesperson, ordered by the sale amount descending. 
+If a salesperson has a tie for their second-highest sale, break the tie by choosing the sale 
+with the earlier sale_id. 
+A salesperson with only one total sale should still be included in the output.
 */
