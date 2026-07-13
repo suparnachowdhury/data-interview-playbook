@@ -102,6 +102,31 @@ salesperson_id, order_date, amount, running total, previous sale amount
 difference from previous sale
 Sort the output by salesperson and order date.
 */
+WITH sales_calculated AS (
+    SELECT 
+        salesperson_id,
+        order_date,
+        amount,
+        SUM(amount) OVER(
+            PARTITION BY salesperson_id 
+            ORDER BY order_date, sale_id
+        ) AS running_total,
+        LAG(amount, 1, 0.00) OVER(
+            PARTITION BY salesperson_id 
+            ORDER BY order_date, sale_id
+        ) AS previous_sale_amount
+    FROM sales
+)
+SELECT 
+    salesperson_id,
+    order_date,
+    amount,
+    running_total,
+    previous_sale_amount,
+    (amount - previous_sale_amount) AS difference_from_previous_sale
+FROM sales_calculated
+ORDER BY salesperson_id, order_date;
+
 
 -- Calculate what percentage each sale contributes to the salesperson's total revenue.
 SELECT 
