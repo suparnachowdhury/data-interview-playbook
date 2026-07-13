@@ -104,6 +104,12 @@ Sort the output by salesperson and order date.
 */
 
 -- Calculate what percentage each sale contributes to the salesperson's total revenue.
+SELECT 
+    sale_id, salesperson_id, order_date, product_id, amount,
+    (amount / SUM(amount) OVER(PARTITION BY salesperson_id)) * 100 AS pct_of_salesperson_total
+FROM sales;
+
+
 
 -- =============================
 --  Bonus Challenge
