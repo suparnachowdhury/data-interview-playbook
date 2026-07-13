@@ -43,9 +43,9 @@ VALUES
 -- =============================
 -- Calculate a running total for every salesperson.
 
--- Show the previous sale using LAG().
+-- Show the previous sale using LAG(). If no such sale exists (e.g., for the first sale), return a default value of 0.00.
 
--- Show the next sale using LEAD().
+-- Show the next sale using LEAD(). If no such sale exists (e.g., for the last sale), return a default value of 0.00.
 
 -- Rank each salesperson's sales using DENSE_RANK().
 
