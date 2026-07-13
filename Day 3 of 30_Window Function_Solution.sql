@@ -29,6 +29,11 @@ VALUES
 -- Easy
 -- =============================
 -- Show every sale with the total revenue across the entire table.
+SELECT 
+    sale_id, salesperson_id, order_date, product_id, amount,
+    SUM(amount) OVER() AS total_table_revenue
+FROM sales;
+
 
 -- Show every sale with each salesperson's total revenue.
 
