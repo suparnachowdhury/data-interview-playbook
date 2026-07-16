@@ -1,161 +1,95 @@
--- Dataset
+-- ============================================
+-- Practice Exercises Solution
+-- ============================================
 
-CREATE TABLE sales (
-    sale_id INT PRIMARY KEY,
-    salesperson_id INT,
-    order_date DATE,
-    product_id INT,
-    amount DECIMAL(10,2)
-);
-
-INSERT INTO sales
-(sale_id, salesperson_id, order_date, product_id, amount)
-VALUES
-(1,101,'2026-02-01',501,1200.00),
-(2,101,'2026-02-03',502,450.00),
-(3,101,'2026-02-07',503,450.00),
-
-(4,102,'2026-02-02',501,800.00),
-(5,102,'2026-02-05',504,1600.00),
-(6,102,'2026-02-09',502,300.00),
-
-(7,103,'2026-02-01',505,240.00),
-(8,103,'2026-02-04',503,480.00),
-(9,103,'2026-02-06',501,1950.00),
-(10,103,'2026-02-10',504,720.00),
-(11,104,'2026-02-08',506,1600.00);
-
--- =============================
 -- Easy
--- =============================
--- Show every sale with the total revenue across the entire table.
-SELECT 
-    sale_id, salesperson_id, order_date, product_id, amount,
-    SUM(amount) OVER() AS total_table_revenue
-FROM sales;
+
+-- 1. Find all sales where the amount is greater than the average sale amount across the entire table.
+SELECT *
+FROM sales
+WHERE amount >
+(
+    SELECT AVG(amount)
+    FROM sales );
+
+-- 2. For each salesperson, count the number of high-value sales (sales greater than $1,000).
+
+SELECT salesperson_id,
+    COUNT(CASE WHEN amount > 1000 THEN 1 END) AS high_value_sales
+FROM sales
+GROUP BY salesperson_id;
 
 
--- Show every sale with each salesperson's total revenue.
-SELECT 
-    sale_id, salesperson_id, order_date, product_id, amount,
-    SUM(amount) OVER(PARTITION BY salesperson_id) AS salesperson_total_revenue
-FROM sales;
-
-
--- Rank all sales using RANK().
-SELECT 
-    sale_id, salesperson_id, order_date, product_id, amount,
-    RANK() OVER(ORDER BY amount DESC) AS overall_sales_rank
-FROM sales;
-
--- Number each salesperson's sales using ROW_NUMBER().
-SELECT 
-    sale_id, salesperson_id, order_date, product_id, amount,
-    ROW_NUMBER() OVER(PARTITION BY salesperson_id ORDER BY order_date) AS salesperson_sale_number
-FROM sales;
-
-
--- Find each salesperson's smallest sale.
-SELECT 
-    sale_id, salesperson_id, order_date, product_id, amount,
-    MIN(amount) OVER(PARTITION BY salesperson_id) AS salesperson_min_sale
-FROM sales;
-
-
--- ============================= 
 -- Medium
--- =============================
 
--- Calculate a running total for every salesperson.
-SELECT 
-    sale_id, salesperson_id, order_date, product_id, amount,
-    SUM(amount) OVER(
-        PARTITION BY salesperson_id 
-        ORDER BY order_date, sale_id
-    ) AS running_total
-FROM sales;
-
--- Show the previous sale using LAG(). If no such sale exists (e.g., for the first sale), 
--- return a default value of 0.00.
-SELECT 
-    sale_id, salesperson_id, order_date, product_id, amount,
-    LAG(amount, 1, 0.00) OVER(
-        PARTITION BY salesperson_id 
-        ORDER BY order_date, sale_id
-    ) AS sale_two_steps_back
-FROM sales;
-
-
--- Show the next sale using LEAD().If no such sale exists (e.g., for the last sale), 
--- return a default value of 0.00.
-SELECT 
-    sale_id, salesperson_id, order_date, product_id, amount,
-    LEAD(amount, 1, 0.00) OVER(
-        PARTITION BY salesperson_id 
-        ORDER BY order_date, sale_id
-    ) AS sale_two_steps_ahead
-FROM sales;
-
-/*
-Return every sale together with:
-salesperson_id, order_date, amount, running total, previous sale amount
-difference from previous sale
-Sort the output by salesperson and order date.
-*/
-WITH sales_calculated AS (
-    SELECT 
-        salesperson_id,
-        order_date,
-        amount,
-        SUM(amount) OVER(
-            PARTITION BY salesperson_id 
-            ORDER BY order_date, sale_id
-        ) AS running_total,
-        LAG(amount, 1, 0.00) OVER(
-            PARTITION BY salesperson_id 
-            ORDER BY order_date, sale_id
-        ) AS previous_sale_amount
+-- 1. Find the salespeople whose total sales are greater than the average total sales of all salespeople.
+WITH salesperson_sales AS (
+    SELECT salesperson_id,
+        SUM(amount) AS total_sales
     FROM sales
-)
-SELECT 
+    GROUP BY salesperson_id
+),
+average_sales AS (
+    SELECT AVG(total_sales) AS avg_total_sales
+    FROM salesperson_sales)
+
+SELECT s.salesperson_id,
+    s.total_sales
+FROM salesperson_sales s
+CROSS JOIN average_sales a
+WHERE s.total_sales > a.avg_total_sales;
+
+-- 2. For each salesperson, return their total sales, average sale amount, and total value of high-value sales (sales greater than $1,000) in a single query.
+
+SELECT
     salesperson_id,
-    order_date,
-    amount,
-    running_total,
-    previous_sale_amount,
-    (amount - previous_sale_amount) AS difference_from_previous_sale
-FROM sales_calculated
-ORDER BY salesperson_id, order_date;
+    SUM(amount) AS total_sales,
+    AVG(amount) AS average_sale,
+    SUM(
+        CASE WHEN amount > 1000 
+			 THEN amount
+             ELSE 0
+        END) AS high_value_sales
+FROM sales
+GROUP BY salesperson_id;
 
 
--- Calculate what percentage each sale contributes to the salesperson's total revenue.
-SELECT 
-    sale_id, salesperson_id, order_date, product_id, amount,
-    (amount / SUM(amount) OVER(PARTITION BY salesperson_id)) * 100 AS pct_of_salesperson_total
-FROM sales;
+-- 3. Create a report that displays each salesperson's February sales total as a separate column 
+-- using conditional aggregation.
+
+SELECT salesperson_id,
+    SUM(CASE WHEN MONTH(order_date) = 2 
+             THEN amount
+             ELSE 0
+        END) AS February_Sales
+FROM sales
+GROUP BY salesperson_id;
 
 
-
--- =============================
---  Bonus Challenge
--- =============================
-
+-- ==============================================
+-- Bonus Challenge
+-- ==============================================
 /*
-Find the top 2 highest sales for each salesperson, ordered by the sale amount descending. 
-If a salesperson has a tie for their second-highest sale, break the tie by choosing the sale 
-with the earlier sale_id. 
-A salesperson with only one total sale should still be included in the output.
-*/
-WITH ranked_sales AS (
-    SELECT 
-        sale_id, salesperson_id, order_date, product_id, amount,
-        DENSE_RANK() OVER (
-            PARTITION BY salesperson_id 
-            ORDER BY amount DESC
-        ) AS sale_rank
+Write a single query that returns each salesperson_id, their total sales, average sale amount, 
+number of high-value sales (greater than $1,000), and their rank based on total sales. 
+Your solution must use a CTE, conditional aggregation, and a window function
+and it should not use any nested subqueries.
+*/ 
+
+WITH salesperson_summary AS
+(
+    SELECT
+        salesperson_id,
+        SUM(amount) AS total_sales,
+        AVG(amount) AS average_sale,
+        COUNT(CASE WHEN amount > 1000 THEN 1 END) AS high_value_sales
     FROM sales
+    GROUP BY salesperson_id
 )
-SELECT salesperson_id, sale_id, order_date, product_id, amount, sale_rank AS price_tier
-FROM ranked_sales
-WHERE sale_rank <= 2
-ORDER BY salesperson_id, amount DESC;
+SELECT salesperson_id,
+    total_sales,
+    average_sale,
+    high_value_sales,
+    RANK() OVER (ORDER BY total_sales DESC) AS sales_rank
+FROM salesperson_summary
+ORDER BY sales_rank;
