@@ -29,9 +29,11 @@ INSERT INTO sales VALUES
 -- ========================
 
 -- Easy
-Find all sales where the amount is greater than the average sale amount across the entire table.
 
-For each salesperson, count the number of high-value sales (sales greater than $1,000).
+-- 1. Find all sales where the amount is greater than the average sale amount across the entire table.
+
+
+-- 2. For each salesperson, count the number of high-value sales (sales greater than $1,000).
 
 Medium
 Find the salespeople whose total sales are greater than the average total sales of all salespeople.
