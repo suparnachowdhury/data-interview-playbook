@@ -15,11 +15,36 @@ WHERE amount >
 
 -- 2. For each salesperson, count the number of high-value sales (sales greater than $1,000).
 
+SELECT
+    salesperson_id,
+    COUNT(CASE WHEN amount > 1000 THEN 1 END) AS high_value_sales
+FROM sales
+GROUP BY salesperson_id;
+
 
 -- Medium
 
 -- 1. Find the salespeople whose total sales are greater than the average total sales of all salespeople.
+WITH salesperson_sales AS
+(
+    SELECT
+        salesperson_id,
+        SUM(amount) AS total_sales
+    FROM sales
+    GROUP BY salesperson_id
+),
+average_sales AS
+(
+    SELECT AVG(total_sales) AS avg_total_sales
+    FROM salesperson_sales
+)
 
+SELECT
+    s.salesperson_id,
+    s.total_sales
+FROM salesperson_sales s
+CROSS JOIN average_sales a
+WHERE s.total_sales > a.avg_total_sales;
 
 -- 2. For each salesperson, return their total sales, average sale amount, and total value of high-value sales (sales greater than $1,000) in a single query.
 
