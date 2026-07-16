@@ -45,5 +45,12 @@ INSERT INTO sales VALUES
 
 -- 3. Create a report that displays each salesperson's February sales total as a separate column using conditional aggregation.
 
-Bonus Challenge
-Write a single query that returns each salesperson_id, their total sales, average sale amount, number of high-value sales (greater than $1,000), and their rank based on total sales. Your solution must use a CTE, conditional aggregation, and a window function, and it should not use any nested subqueries.
+-- ==============================================
+-- Bonus Challenge
+-- ==============================================
+/*
+Write a single query that returns each salesperson_id, their total sales, average sale amount, 
+number of high-value sales (greater than $1,000), and their rank based on total sales. 
+Your solution must use a CTE, conditional aggregation, and a window function
+and it should not use any nested subqueries.
+*/ 
