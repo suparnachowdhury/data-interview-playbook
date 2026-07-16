@@ -5,7 +5,13 @@
 -- Easy
 
 -- 1. Find all sales where the amount is greater than the average sale amount across the entire table.
-
+SELECT *
+FROM sales
+WHERE amount >
+(
+    SELECT AVG(amount)
+    FROM sales
+);
 
 -- 2. For each salesperson, count the number of high-value sales (sales greater than $1,000).
 
