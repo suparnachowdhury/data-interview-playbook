@@ -48,6 +48,18 @@ WHERE s.total_sales > a.avg_total_sales;
 
 -- 2. For each salesperson, return their total sales, average sale amount, and total value of high-value sales (sales greater than $1,000) in a single query.
 
+SELECT
+    salesperson_id,
+    SUM(amount) AS total_sales,
+    AVG(amount) AS average_sale,
+    SUM(CASE
+            WHEN amount > 1000 THEN amount
+            ELSE 0
+        END) AS high_value_sales
+FROM sales
+GROUP BY salesperson_id;
+
+
 -- 3. Create a report that displays each salesperson's February sales total as a separate column using conditional aggregation.
 
 -- ==============================================
