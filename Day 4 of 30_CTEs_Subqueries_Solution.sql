@@ -60,7 +60,18 @@ FROM sales
 GROUP BY salesperson_id;
 
 
--- 3. Create a report that displays each salesperson's February sales total as a separate column using conditional aggregation.
+-- 3. Create a report that displays each salesperson's February sales total as a separate column 
+-- using conditional aggregation.
+
+SELECT
+    salesperson_id,
+    SUM(CASE
+            WHEN MONTH(order_date) = 2 THEN amount
+            ELSE 0
+        END) AS February_Sales
+FROM sales
+GROUP BY salesperson_id;
+
 
 -- ==============================================
 -- Bonus Challenge
