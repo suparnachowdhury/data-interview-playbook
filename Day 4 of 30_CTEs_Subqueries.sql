@@ -24,9 +24,11 @@ INSERT INTO sales VALUES
 (15,103,'2026-03-01',502,500),
 (16,103,'2026-03-07',501,1400);
 
+-- =======================
+-- Practice Exercises
+-- ========================
 
-Practice Exercises
-Easy
+-- Easy
 Find all sales where the amount is greater than the average sale amount across the entire table.
 
 For each salesperson, count the number of high-value sales (sales greater than $1,000).
