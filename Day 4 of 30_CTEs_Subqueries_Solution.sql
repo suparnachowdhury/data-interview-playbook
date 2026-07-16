@@ -10,13 +10,11 @@ FROM sales
 WHERE amount >
 (
     SELECT AVG(amount)
-    FROM sales
-);
+    FROM sales );
 
 -- 2. For each salesperson, count the number of high-value sales (sales greater than $1,000).
 
-SELECT
-    salesperson_id,
+SELECT salesperson_id,
     COUNT(CASE WHEN amount > 1000 THEN 1 END) AS high_value_sales
 FROM sales
 GROUP BY salesperson_id;
@@ -25,22 +23,17 @@ GROUP BY salesperson_id;
 -- Medium
 
 -- 1. Find the salespeople whose total sales are greater than the average total sales of all salespeople.
-WITH salesperson_sales AS
-(
-    SELECT
-        salesperson_id,
+WITH salesperson_sales AS (
+    SELECT salesperson_id,
         SUM(amount) AS total_sales
     FROM sales
     GROUP BY salesperson_id
 ),
-average_sales AS
-(
+average_sales AS (
     SELECT AVG(total_sales) AS avg_total_sales
-    FROM salesperson_sales
-)
+    FROM salesperson_sales)
 
-SELECT
-    s.salesperson_id,
+SELECT s.salesperson_id,
     s.total_sales
 FROM salesperson_sales s
 CROSS JOIN average_sales a
@@ -52,9 +45,10 @@ SELECT
     salesperson_id,
     SUM(amount) AS total_sales,
     AVG(amount) AS average_sale,
-    SUM(CASE
-            WHEN amount > 1000 THEN amount
-            ELSE 0
+    SUM(
+        CASE WHEN amount > 1000 
+			 THEN amount
+             ELSE 0
         END) AS high_value_sales
 FROM sales
 GROUP BY salesperson_id;
@@ -63,11 +57,10 @@ GROUP BY salesperson_id;
 -- 3. Create a report that displays each salesperson's February sales total as a separate column 
 -- using conditional aggregation.
 
-SELECT
-    salesperson_id,
-    SUM(CASE
-            WHEN MONTH(order_date) = 2 THEN amount
-            ELSE 0
+SELECT salesperson_id,
+    SUM(CASE WHEN MONTH(order_date) = 2 
+             THEN amount
+             ELSE 0
         END) AS February_Sales
 FROM sales
 GROUP BY salesperson_id;
@@ -82,3 +75,21 @@ number of high-value sales (greater than $1,000), and their rank based on total 
 Your solution must use a CTE, conditional aggregation, and a window function
 and it should not use any nested subqueries.
 */ 
+
+WITH salesperson_summary AS
+(
+    SELECT
+        salesperson_id,
+        SUM(amount) AS total_sales,
+        AVG(amount) AS average_sale,
+        COUNT(CASE WHEN amount > 1000 THEN 1 END) AS high_value_sales
+    FROM sales
+    GROUP BY salesperson_id
+)
+SELECT salesperson_id,
+    total_sales,
+    average_sale,
+    high_value_sales,
+    RANK() OVER (ORDER BY total_sales DESC) AS sales_rank
+FROM salesperson_summary
+ORDER BY sales_rank;
