@@ -23,3 +23,20 @@ INSERT INTO sales VALUES
 (14,102,'2026-03-10',505,2200),
 (15,103,'2026-03-01',502,500),
 (16,103,'2026-03-07',501,1400);
+
+
+Practice Exercises
+Easy
+Find all sales where the amount is greater than the average sale amount across the entire table.
+
+For each salesperson, count the number of high-value sales (sales greater than $1,000).
+
+Medium
+Find the salespeople whose total sales are greater than the average total sales of all salespeople.
+
+For each salesperson, return their total sales, average sale amount, and total value of high-value sales (sales greater than $1,000) in a single query.
+
+Create a report that displays each salesperson's February sales total as a separate column using conditional aggregation.
+
+Bonus Challenge
+Write a single query that returns each salesperson_id, their total sales, average sale amount, number of high-value sales (greater than $1,000), and their rank based on total sales. Your solution must use a CTE, conditional aggregation, and a window function, and it should not use any nested subqueries.
